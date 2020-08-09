@@ -21,7 +21,7 @@ namespace BMSDbEntities
         }
     
         public int GenreID { get; set; }
-        public string Genre1 { get; set; }
+        public string GenreName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MOVIE> MOVIEs { get; set; }

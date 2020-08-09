@@ -17,6 +17,7 @@ namespace BMSDbEntities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MOVIE()
         {
+            this.CASTINGs = new HashSet<CASTING>();
             this.SHOWINFOes = new HashSet<SHOWINFO>();
         }
     
@@ -25,13 +26,13 @@ namespace BMSDbEntities
         public string PosterURL { get; set; }
         public string Synopsis { get; set; }
         public string TrailerURL { get; set; }
-        public int CastingID { get; set; }
         public int DirectorID { get; set; }
         public int GenreID { get; set; }
     
-        public virtual CASTING CASTING { get; set; }
         public virtual DIRECTOR DIRECTOR { get; set; }
         public virtual GENRE GENRE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CASTING> CASTINGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SHOWINFO> SHOWINFOes { get; set; }
     }

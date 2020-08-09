@@ -12,10 +12,11 @@ namespace BMSWebApp1.Controllers
     public class UserController : ApiController
     {
         [HttpPost]
-        [Route("registeruser")]
+        [Route("api/user/registeruser")]
         public void PostRegisterUser([FromBody] CUSTOMER customer)
         {
             BMSDbMethods.UserRegistration(customer);
         }
+
     }
 }

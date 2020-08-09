@@ -51,18 +51,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BMSDbModel.Context.cs">
-      <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>BMSDbModel.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="BMSDbModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>BMSDbModel.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="BMSDbModel.Designer.cs">
-      <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>BMSDbModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="BOOKING.cs">
@@ -99,9 +99,6 @@
     <Compile Include="THEATRECOMPLEX.cs">
       <DependentUpon>BMSDbModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TICKETRESERVATION.cs">
-      <DependentUpon>BMSDbModel.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -125,8 +122,8 @@
     </Content>
     <Content Include="BMSDbModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BMSDbModel.edmx</DependentUpon>
       <LastGenOutput>BMSDbModel.cs</LastGenOutput>
+      <DependentUpon>BMSDbModel.edmx</DependentUpon>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

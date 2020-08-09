@@ -4,31 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4bf86ff51c344596a2a42ba9d5acc65b" Name="Diagram1">
+      <Diagram DiagramId="6fb6a7915aa34401b18b600d886cd3cb" Name="Diagram1">
         <EntityTypeShape EntityType="BMSApplicationModel.BOOKING" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BMSApplicationModel.CASTING" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSApplicationModel.CASTING" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="BMSApplicationModel.CUSTOMER" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="BMSApplicationModel.DIRECTOR" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BMSApplicationModel.GENRE" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BMSApplicationModel.MOVIE" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BMSApplicationModel.MOVIEHALL" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BMSApplicationModel.MOVIEHALLSEAT" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BMSApplicationModel.PAYMENTDETAIL" Width="1.5" PointX="9.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BMSApplicationModel.SHOWINFO" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSApplicationModel.MOVIEHALLSEAT" Width="1.5" PointX="9.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSApplicationModel.PAYMENTDETAIL" Width="1.5" PointX="9.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMSApplicationModel.SHOWINFO" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="BMSApplicationModel.THEATRECOMPLEX" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BMSApplicationModel.TICKETRESERVATION" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="BMSApplicationModel.FK__BOOKING__Custome__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.FK__BOOKING__ShowID__46E78A0C" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.FK__PAYMENTDE__Booki__4E88ABD4" ManuallyRouted="false" />
-        <AssociationConnector Association="BMSApplicationModel.FK__TICKETRES__Booki__49C3F6B7" ManuallyRouted="false" />
-        <AssociationConnector Association="BMSApplicationModel.FK__MOVIE__CastingID__38996AB5" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.FK__MOVIE__DirectorI__398D8EEE" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.FK__MOVIE__GenreID__3A81B327" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.FK__MOVIEHALL__Movie__2B3F6F97" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.FK__MOVIEHALL__Theat__286302EC" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.FK_MovieHallID" ManuallyRouted="false" />
-        <AssociationConnector Association="BMSApplicationModel.FK__TICKETRES__Movie__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="BMSApplicationModel.MOVIECAST" ManuallyRouted="false" />
         <AssociationConnector Association="BMSApplicationModel.SHOW" ManuallyRouted="false" />
+        <AssociationConnector Association="BMSApplicationModel.TICKETRESERVATION" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

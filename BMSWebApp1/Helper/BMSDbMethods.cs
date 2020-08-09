@@ -8,7 +8,8 @@ namespace BMSWebApp1.Helper
 {
     public class BMSDbMethods
     {
-        public static int UserRegistration(CUSTOMER customer) //Check Saving to DB exists in the DB
+        //User functions
+        public static int UserRegistration(CUSTOMER customer) //Registers user
         {
             try
             {
@@ -31,7 +32,7 @@ namespace BMSWebApp1.Helper
                 return -1;
             }
         }
-        public static string LoginAttempt(string email, string password, out CUSTOMER customer) //Login function
+        public static string LoginAttempt(string email, string password, out CUSTOMER customer) //Login
         {
             try
             {
@@ -68,5 +69,8 @@ namespace BMSWebApp1.Helper
                 return "Exception Caused";
             }
         }
+
+        //Movie functions
+        //public static int AddMovie() { }
     }
 }
