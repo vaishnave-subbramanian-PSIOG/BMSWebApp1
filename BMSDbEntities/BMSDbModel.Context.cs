@@ -34,7 +34,6 @@ namespace BMSDbEntities
         public virtual DbSet<MOVIEHALL> MOVIEHALLs { get; set; }
         public virtual DbSet<MOVIEHALLSEAT> MOVIEHALLSEATs { get; set; }
         public virtual DbSet<PAYMENTDETAIL> PAYMENTDETAILS { get; set; }
-        public virtual DbSet<SHOW> SHOWs { get; set; }
         public virtual DbSet<SHOWINFO> SHOWINFOes { get; set; }
         public virtual DbSet<THEATRECOMPLEX> THEATRECOMPLEXes { get; set; }
         public virtual DbSet<TICKETRESERVATION> TICKETRESERVATIONs { get; set; }
