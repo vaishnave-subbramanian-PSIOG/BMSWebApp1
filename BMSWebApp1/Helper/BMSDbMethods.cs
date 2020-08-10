@@ -15,15 +15,22 @@ namespace BMSWebApp1.Helper
             {
                 using (BMSApplicationEntities db = new BMSApplicationEntities())
                 {
-                    var keyNew = Encryption.GeneratePassword(10);
-                    var password = Encryption.EncodePassword(customer.CustomerPassword, keyNew);
-                    customer.CustomerPassword = password;
-                    customer.AccountCreateDate = DateTime.Now;
-                    customer.VCode = keyNew;
-                    db.CUSTOMERs.Add(customer);
-                    int a = db.SaveChanges();
-                    return a;
+                    if (!DoesUserExists(customer.CustomerEmail)) {
+                        var keyNew = Encryption.GeneratePassword(10);
+                        var password = Encryption.EncodePassword(customer.CustomerPassword, keyNew);
+                        customer.CustomerPassword = password;
+                        customer.AccountCreateDate = DateTime.Now;
+                        customer.VCode = keyNew;
+                        customer.isVerified = false;
+                        db.CUSTOMERs.Add(customer);
+                        int a = db.SaveChanges();
+                        return a;
+                    }
+                    else
+                    {
+                        return -2; //Email already exists in db
 
+                    }
                 }
             }
             catch (Exception ex)
@@ -41,23 +48,31 @@ namespace BMSWebApp1.Helper
                     customer = db.CUSTOMERs.Where(l => l.CustomerEmail == email).FirstOrDefault();
                     if (customer != null)
                     {
-                        var hashCode = customer.VCode;
-                        //Password Hasing Process Call Helper Class Method    
-                        var encodingPasswordString = Encryption.EncodePassword(password, hashCode);
-                        if (String.Compare(encodingPasswordString, customer.CustomerPassword) == 0)
-                        {
-                            return "Success";
+                        if (customer.isVerified) 
+                        { 
+                            var hashCode = customer.VCode;
+                            //Password Hasing Process Call Helper Class Method    
+                            var encodingPasswordString = Encryption.EncodePassword(password, hashCode);
+                            if (String.Compare(encodingPasswordString, customer.CustomerPassword) == 0)
+                            {
+                                return "Success";
+                            }
+                            else
+                            {
+                                customer = null;
+                                return "Invalid Credentials";
+                            }
                         }
                         else
                         {
-                            customer = null;
-                            return "Incorrect";
+                            return "User Not Verified";
                         }
+
                     }
                     else
                     {
                         customer = null;
-                        return "Invalid Credentials";
+                        return "User Doesn't Exist";
                     }
                 }
             }
@@ -66,9 +81,163 @@ namespace BMSWebApp1.Helper
 
                 Log.Write(ex);
                 customer = null;
-                return "Exception Caused";
+                return "Exception Occured";
             }
         }
+
+        public static int EditPassword(string email,string password) //Changing password
+        {
+            try
+            {
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+                {
+                    var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
+                    var keyNew = Encryption.GeneratePassword(10);
+                    var encodedPassword = Encryption.EncodePassword(password, keyNew);
+                    entity.CustomerPassword = encodedPassword;
+                    entity.VCode = keyNew;
+                    entities.SaveChanges();
+                    return 1;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Log.Write(ex);
+                return 0;
+            }
+        }
+
+        public static bool DoesUserExists(string email) //checks if email ID of user exists
+        {
+            try
+            {
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+
+                {
+                    var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
+                    return entity != null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write(ex);
+                return false;
+            }
+
+        }
+
+        public static string VerifyAccount(string encodedEmail) //changes verified account status for user
+        {
+            try
+            {
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+
+                {
+                    var decodedEmail = Encryption.base64Decode(encodedEmail);
+                    var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == decodedEmail);
+                    if (entity!=null)
+                    {
+                        if(!entity.isVerified) 
+                        { entity.isVerified = true; 
+                            entities.SaveChanges();
+                            return "Verified";
+                        }
+                        else 
+                        { return "Already Verified"; }
+
+                    }
+                    else
+                    {
+                        return "Invalid Token";
+
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write(ex);
+                if (ex.Message == "Error in base64DecodeInvalid length for a Base-64 char array or string.")
+                {
+                    return "Invalid Token";
+                }
+                return "Verification Failed";
+            }
+
+        }
+
+        public static bool SetResetPasswordTimeout(string email) //sets reset password timeout field for 15 minutes from current time
+        {
+            try
+            {
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+
+                {
+                    var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
+                    entity.ResetPasswordTimeout = DateTime.Now.AddMinutes(2);
+                    entities.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write(ex);
+                return false;
+            }
+        }
+        public static string isResetPasswordTimeout(string email) //sets reset password timeout field for 15 minutes from current time
+        {
+            try
+            {
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+
+                {
+                    var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
+                    if (entity.ResetPasswordTimeout!=null) {
+                        if (entity.ResetPasswordTimeout > DateTime.Now)
+                        {
+                            return "Not Timeout";
+                        }
+                        else
+                        {
+                            return "Timeout";
+                        }
+                    }
+                    else
+                    {
+                        return "Timeout";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write(ex);
+                return ex.Message;
+            }
+        }
+        public static int NullResetPasswordTimeout(string email) //nulls reset password timeout field.
+        {
+            try
+            {
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+
+                {
+                    var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
+                    entity.ResetPasswordTimeout = null;
+                    entities.SaveChanges();
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write(ex);
+                return 0;
+            }
+        }
+
 
         //Movie functions
         //public static int AddMovie() { }

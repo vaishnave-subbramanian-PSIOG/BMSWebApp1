@@ -12,29 +12,70 @@ namespace BMSWebApp1.Controllers
 {
     public class UserController : ApiController
     {
+        //[HttpPost]
+        //[Route("api/user/user")]
+        //public IHttpActionResult PostRegisterUser([FromBody] CUSTOMER customer)
+        //{
+        //    try
+        //    {
+        //        var returnStatus = BMSDbMethods.UserRegistration(customer);
+        //        if (returnStatus > 0)
+        //        {
+        //            return Ok();
+
+        //        }
+        //        else if (returnStatus == -2)
+        //        {
+        //            throw new InvalidOperationException("This user already exists.");
+        //        }
+        //        else
+        //        {
+        //            throw new InvalidOperationException("User registration failed.");
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        Log.Write(ex);
+        //        return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message)); ;
+        //    }
+        //}
         [HttpPost]
         [Route("api/user/user")]
         public IHttpActionResult PostRegisterUser([FromBody] CUSTOMER customer)
         {
             try
             {
-                var returnStatus = BMSDbMethods.UserRegistration(customer);
-                if (returnStatus>0)
-                {
-                    return Ok();
 
+                var returnStatus = BMSDbMethods.UserRegistration(customer);
+                if (returnStatus > 0)
+                {
+                    string VerificationCode = Guid.NewGuid().ToString();
+                    var encodedEmail = Encryption.base64Encode(customer.CustomerEmail);
+                    var link = "https://" + HttpContext.Current.Request.Url.Authority + "/verification/" + HttpUtility.UrlEncode(encodedEmail);
+                    EmailVerificationLink.EmailLinkGenerator(customer.CustomerEmail, VerificationCode, link);
+                    return Ok();
                 }
+
+
+                else if (returnStatus == -2)
+                {
+                    throw new InvalidOperationException("This user already exists.");
+                }
+
                 else
                 {
                     throw new InvalidOperationException("User registration failed.");
                 }
+
 
             }
             catch (Exception ex)
             {
 
                 Log.Write(ex);
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Database connection problem")); ;
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message)); ;
             }
         }
         [HttpGet]
@@ -59,7 +100,7 @@ namespace BMSWebApp1.Controllers
 
         [HttpGet]
         [Route("api/user/user/{id?}")]
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult GetUser(int id)
         {
             try
             {
@@ -81,7 +122,7 @@ namespace BMSWebApp1.Controllers
         [HttpPut]
 
         [Route("api/user/user/{id?}")]
-        public IHttpActionResult Put(int id, [FromBody] CUSTOMER customer)
+        public IHttpActionResult PutEditUser(int id, [FromBody] CUSTOMER customer)
         {
             try
             {
@@ -89,8 +130,7 @@ namespace BMSWebApp1.Controllers
                 {
                     var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerID == id);
                     entity.CustomerName = customer.CustomerName;
-                    entity.CustomerEmail = customer.CustomerEmail;
-                    entity.CustomerPassword = customer.CustomerEmail;
+                    //generate new salt in case of password  change
                     entity.CustomerAddress = customer.CustomerAddress;
                     entity.CustomerContact = customer.CustomerContact;
                     entities.SaveChanges();
@@ -108,7 +148,7 @@ namespace BMSWebApp1.Controllers
 
         [HttpDelete]
         [Route("api/user/user/{id?}")]
-        public IHttpActionResult Delete(int id)
+        public IHttpActionResult DeleteUser(int id)
         {
 
         try

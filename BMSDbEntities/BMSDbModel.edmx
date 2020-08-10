@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BMSApplicationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BMSApplicationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BOOKING">
           <Key>
             <PropertyRef Name="BookingID" />
@@ -34,6 +34,8 @@
           <Property Name="isAdmin" Type="bit" Nullable="false" />
           <Property Name="VCode" Type="nvarchar(max)" />
           <Property Name="AccountCreateDate" Type="datetime2" Precision="7" />
+          <Property Name="isVerified" Type="bit" Nullable="false" />
+          <Property Name="ResetPasswordTimeout" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="DIRECTOR">
           <Key>
@@ -378,8 +380,7 @@
             <End Role="MOVIECAST" EntitySet="MOVIECAST" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BMSApplicationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -418,6 +419,8 @@
           <Property Name="VCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AccountCreateDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="BOOKINGs" Relationship="Self.FK__BOOKING__Custome__45F365D3" FromRole="CUSTOMER" ToRole="BOOKING" />
+          <Property Name="isVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ResetPasswordTimeout" Type="DateTime" Precision="7" />
         </EntityType>
         <EntityType Name="DIRECTOR">
           <Key>
@@ -706,6 +709,8 @@
           <EntitySetMapping Name="CUSTOMERs">
             <EntityTypeMapping TypeName="BMSApplicationModel.CUSTOMER">
               <MappingFragment StoreEntitySet="CUSTOMER">
+                <ScalarProperty Name="ResetPasswordTimeout" ColumnName="ResetPasswordTimeout" />
+                <ScalarProperty Name="isVerified" ColumnName="isVerified" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerContact" ColumnName="CustomerContact" />

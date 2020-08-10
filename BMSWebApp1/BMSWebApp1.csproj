@@ -197,6 +197,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -205,12 +206,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\BMSDbMethods.cs" />
+    <Compile Include="Helper\EmailVerificationLink.cs" />
     <Compile Include="Helper\Encryption.cs" />
     <Compile Include="Helper\Log.cs" />
     <Compile Include="Managers\IAuthService1.cs" />
     <Compile Include="Managers\JWTService.cs" />
     <Compile Include="Models\IAuthContainerModel.cs" />
     <Compile Include="Models\JWTContainerModel.cs" />
+    <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
