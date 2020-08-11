@@ -51,10 +51,9 @@ namespace BMSWebApp1.Controllers
                 var returnStatus = BMSDbMethods.UserRegistration(customer);
                 if (returnStatus > 0)
                 {
-                    string VerificationCode = Guid.NewGuid().ToString();
                     var encodedEmail = Encryption.base64Encode(customer.CustomerEmail);
                     var link = "https://" + HttpContext.Current.Request.Url.Authority + "/verification/" + HttpUtility.UrlEncode(encodedEmail);
-                    EmailVerificationLink.EmailLinkGenerator(customer.CustomerEmail, VerificationCode, link);
+                    EmailVerificationLink.EmailLinkGenerator(customer.CustomerEmail, link, "AccountVerification");
                     return Ok();
                 }
 

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using Microsoft.Ajax.Utilities;
 
 namespace BMSWebApp1.Helper
 {
     public class EmailVerificationLink
     {
-        public static void EmailLinkGenerator(string email, string activationCode, string link, string purpose = "AccountVerification")
+        public static void EmailLinkGenerator(string email,string link, string purpose)
         {
 
             var fromEmail = new MailAddress("automated.bookmyshow@gmail.com", "BMS");
@@ -19,17 +20,24 @@ namespace BMSWebApp1.Helper
 
             string subject = "";
             string body = "";
-            if (purpose == "AccountVerification")
-            {
+            switch (purpose) {
+                case "AccountVerification":
                 subject = "Your account has been created.";
                 body = "<br/><br/>Please click on the below link to verify your account" +
-                    " <br/><br/><a href='" + link + "'>" + link + "</a> ";
-            }
-            else if (purpose == "ResetPassword")
-            {
+                    " <br/><br/><a href='" + link + "'> Verify Account</a> ";
+                break;
+
+                case "ResetPassword":
                 subject = "Reset your account password.";
-                body = "Hi,<br/><br/>Please click on the link below to reset your password" +
+                body = "<br/><br/>Please click on the link below to reset your password" +
                     "<br/><br/><a href=" + link + ">Reset Password link</a>";
+                break;
+
+                case "PostResetPassword":
+                subject = "Your password has been reset.";
+                body = "<br/><br/>You have successfully reset your account password." +
+                        "<br/><br/>";
+                break;
             }
 
 

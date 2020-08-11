@@ -21,10 +21,9 @@ namespace BMSWebApp1.Controllers
             {
                     if (BMSDbMethods.DoesUserExists(email))
                     {
-                        string VerificationCode = Guid.NewGuid().ToString();
                         var encodedEmail = Encryption.base64Encode(email);
                         var link = "https://" + HttpContext.Current.Request.Url.Authority + "/reset-password/" + HttpUtility.UrlEncode(encodedEmail);
-                        EmailVerificationLink.EmailLinkGenerator(email, VerificationCode, link, "ResetPassword");
+                        EmailVerificationLink.EmailLinkGenerator(email, link, "ResetPassword");
                         var isTimeoutSet = BMSDbMethods.SetResetPasswordTimeout(email);
                         if (isTimeoutSet)
                         {
@@ -70,6 +69,7 @@ namespace BMSWebApp1.Controllers
                     case "Not Timeout":
                         if (BMSDbMethods.EditPassword(decodedEmail, resetPassword.newpassword) == 1)
                         {
+                            EmailVerificationLink.EmailLinkGenerator(decodedEmail, "", "PostResetPassword");
                             return Ok("Password has been changed.");
 
                         }
