@@ -96,6 +96,7 @@ namespace BMSWebApp1.Helper
                     var encodedPassword = Encryption.EncodePassword(password, keyNew);
                     entity.CustomerPassword = encodedPassword;
                     entity.VCode = keyNew;
+                    entity.ResetPasswordTimeout = null;
                     entities.SaveChanges();
                     return 1;
 
@@ -160,7 +161,7 @@ namespace BMSWebApp1.Helper
             catch (Exception ex)
             {
                 Log.Write(ex);
-                if (ex.Message == "Error in base64DecodeInvalid length for a Base-64 char array or string.")
+                if (ex.Message.Contains("Error in base64Decod"))
                 {
                     return "Invalid Token";
                 }
@@ -177,7 +178,7 @@ namespace BMSWebApp1.Helper
 
                 {
                     var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
-                    entity.ResetPasswordTimeout = DateTime.Now.AddMinutes(2);
+                    entity.ResetPasswordTimeout = DateTime.Now.AddMinutes(15);
                     entities.SaveChanges();
                     return true;
                 }
@@ -203,6 +204,7 @@ namespace BMSWebApp1.Helper
                         }
                         else
                         {
+                            entity.ResetPasswordTimeout = null;
                             return "Timeout";
                         }
                     }
@@ -218,25 +220,7 @@ namespace BMSWebApp1.Helper
                 return ex.Message;
             }
         }
-        public static int NullResetPasswordTimeout(string email) //nulls reset password timeout field.
-        {
-            try
-            {
-                using (BMSApplicationEntities entities = new BMSApplicationEntities())
 
-                {
-                    var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
-                    entity.ResetPasswordTimeout = null;
-                    entities.SaveChanges();
-                    return 1;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Write(ex);
-                return 0;
-            }
-        }
 
 
         //Movie functions

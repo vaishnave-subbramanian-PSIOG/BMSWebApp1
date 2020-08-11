@@ -65,32 +65,36 @@ namespace BMSWebApp1.Controllers
             {
                 var decodedEmail = Encryption.base64Decode(resetPassword.token);
                 var isTimeoutResult = BMSDbMethods.isResetPasswordTimeout(decodedEmail);
-                if (isTimeoutResult=="Not Timeout") {
-                    if (BMSDbMethods.EditPassword(decodedEmail, resetPassword.newpassword)==1)
-                    {
-                        BMSDbMethods.NullResetPasswordTimeout(decodedEmail);
-                        return Ok("Password has been changed.");
+                switch (isTimeoutResult)
+                {
+                    case "Not Timeout":
+                        if (BMSDbMethods.EditPassword(decodedEmail, resetPassword.newpassword) == 1)
+                        {
+                            return Ok("Password has been changed.");
 
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Change password failed.");
-                    }
-                }
-                else if (isTimeoutResult == "Timeout")
-                {
-                    throw new InvalidOperationException("Reset password session has expired.");
-                }
-                else
-                {
-                    throw new InvalidOperationException(isTimeoutResult);
-                }
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Change password failed.");
+                        }
+
+                    case "Timeout":
+                        throw new InvalidOperationException("Reset password session has expired.");
+
+                    default:
+                        throw new InvalidOperationException(isTimeoutResult);
+            }
             }
             catch (Exception ex)
             {
                 Log.Write(ex);
                 if (ex.Message== "Reset password session has expired.") {
                     return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message));
+                }
+                else if (ex.Message.Contains("Error in base64Decod"))
+                {
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Token"));
+
                 }
                 else
                 {
