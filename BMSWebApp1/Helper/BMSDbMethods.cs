@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -225,5 +226,25 @@ namespace BMSWebApp1.Helper
 
         //Movie functions
         //public static int AddMovie() { }
+        //public static IEnumerable MoviesList() {
+        //    using (BMSApplicationEntities entities = new BMSApplicationEntities())
+        //    {
+        //        List<MOVIE> AllMovies = entities.MOVIEs.ToList();
+        //        List<DIRECTOR> AllDirectors = entities.DIRECTORs.ToList();
+        //        List<GENRE> AllGenres = entities.GENREs.ToList();
+
+        //        var movieInfo = (from m in AllMovies
+        //                         join d in AllDirectors on m.DirectorID equals d.DirectorID
+        //                         join g in AllGenres on m.GenreID equals g.GenreID
+        //                         select new
+        //                         {
+        //                             MovieID = m.MovieID,
+        //                             MovieName = m.MovieName,
+        //                             DirectorName = d.DirectorName,
+        //                             GenreName = g.GenreName,
+        //                         });
+        //        return movieInfo;
+        //    }
+        //}
     }
 }
