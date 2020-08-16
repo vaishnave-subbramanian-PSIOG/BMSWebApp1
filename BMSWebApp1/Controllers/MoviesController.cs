@@ -37,6 +37,9 @@ namespace BMSWebApp1.Controllers
                                       {
                                           MovieID = m.MovieID,
                                           MovieName = m.MovieName,
+                                          Synopsis = m.Synopsis,
+                                          TrailerURL = m.TrailerURL,
+                                          PosterURL = m.PosterURL,
                                           DirectorName = d.DirectorName,
                                           GenreName = g.GenreName,
                                       });
@@ -45,6 +48,9 @@ namespace BMSWebApp1.Controllers
                         MoviesViewModel moviesViewModel = new MoviesViewModel();
                         moviesViewModel.ID = mi.MovieID;
                         moviesViewModel.Name = mi.MovieName;
+                        moviesViewModel.Synopsis = mi.Synopsis;
+                        moviesViewModel.TrailerURL = mi.TrailerURL;
+                        moviesViewModel.PosterURL = mi.PosterURL;
                         moviesViewModel.Director = mi.DirectorName;
                         moviesViewModel.Genre = mi.GenreName;
                         moviesViewModel.Cast = entities.CASTINGs.Where(c => c.MOVIEs.Any(m => m.MovieID == mi.MovieID)).ToList();
@@ -79,6 +85,9 @@ namespace BMSWebApp1.Controllers
                                       {
                                           MovieID = m.MovieID,
                                           MovieName = m.MovieName,
+                                          Synopsis = m.Synopsis,
+                                          TrailerURL = m.TrailerURL,
+                                          PosterURL = m.PosterURL,
                                           DirectorName = d.DirectorName,
                                           GenreName = g.GenreName,
                                       });
@@ -87,6 +96,9 @@ namespace BMSWebApp1.Controllers
                         MoviesViewModel movieViewModel = new MoviesViewModel();
                         movieViewModel.ID = movieInfo.MovieID;
                         movieViewModel.Name = movieInfo.MovieName;
+                        movieViewModel.Synopsis = movieInfo.Synopsis;
+                        movieViewModel.TrailerURL = movieInfo.TrailerURL;
+                        movieViewModel.PosterURL = movieInfo.PosterURL;
                         movieViewModel.Director = movieInfo.DirectorName;
                         movieViewModel.Genre = movieInfo.GenreName;
                         movieViewModel.Cast = entities.CASTINGs.Where(c => c.MOVIEs.Any(m => m.MovieID == movieInfo.MovieID)).ToList();
@@ -106,7 +118,6 @@ namespace BMSWebApp1.Controllers
                 return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message)); ;
 
             }
-        }
         }
 
         [HttpPost]
