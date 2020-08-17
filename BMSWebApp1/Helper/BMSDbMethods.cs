@@ -20,7 +20,7 @@ namespace BMSWebApp1.Helper
                         var keyNew = Encryption.GeneratePassword(10);
                         var password = Encryption.EncodePassword(customer.CustomerPassword, keyNew);
                         customer.CustomerPassword = password;
-                        customer.AccountCreateDate = DateTime.Now;
+                        customer.AccountCreateDate = ConvertToIndianTime(DateTime.UtcNow);
                         customer.VCode = keyNew;
                         customer.isVerified = false;
                         db.CUSTOMERs.Add(customer);
@@ -179,7 +179,7 @@ namespace BMSWebApp1.Helper
 
                 {
                     var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
-                    entity.ResetPasswordTimeout = DateTime.Now.AddMinutes(15);
+                    entity.ResetPasswordTimeout = ConvertToIndianTime(DateTime.UtcNow).AddMinutes(15);
                     entities.SaveChanges();
                     return true;
                 }
@@ -199,7 +199,8 @@ namespace BMSWebApp1.Helper
                 {
                     var entity = entities.CUSTOMERs.FirstOrDefault(c => c.CustomerEmail == email);
                     if (entity.ResetPasswordTimeout!=null) {
-                        if (entity.ResetPasswordTimeout > DateTime.Now)
+ 
+                        if (entity.ResetPasswordTimeout > ConvertToIndianTime(DateTime.UtcNow))
                         {
                             return "Not Timeout";
                         }
@@ -222,7 +223,11 @@ namespace BMSWebApp1.Helper
             }
         }
 
-
+        public static DateTime ConvertToIndianTime(DateTime inputDate)
+        {
+            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(inputDate, INDIAN_ZONE);
+        }
 
         //Movie functions
         //public static int AddMovie() { }
