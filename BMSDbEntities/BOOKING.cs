@@ -25,6 +25,7 @@ namespace BMSDbEntities
         public System.DateTime BookingDate { get; set; }
         public int CustomerID { get; set; }
         public int ShowID { get; set; }
+        public System.DateTime ShowDate { get; set; }
     
         public virtual CUSTOMER CUSTOMER { get; set; }
         public virtual SHOWINFO SHOWINFO { get; set; }

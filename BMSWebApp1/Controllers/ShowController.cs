@@ -14,7 +14,7 @@ namespace BMSWebApp1.Controllers
     {
         [HttpGet]
         [Route("api/show")]
-        public IHttpActionResult GetShowsOnDateForMovie ([FromUri] int MovieID, System.DateTime RequestedDate)
+        public IHttpActionResult GetShowsOnDateForMovie ([FromUri] int MovieID, DateTime RequestedDate)
         {
             try
             {
@@ -35,9 +35,8 @@ namespace BMSWebApp1.Controllers
                                          {
                                              s.ShowID,
                                              s.ShowTime,
-                                             s.ReservedSeatsCount,
-                                             s.UnreservedSeatsCount,
                                              h.MovieHallType,
+                                             h.Capacity,
                                              h.Price,
                                              th.TheatreName,
                                              th.TheatreLocation,
@@ -50,12 +49,23 @@ namespace BMSWebApp1.Controllers
                         foreach (var si in showsInfo)
                         {
                             ShowViewModel showViewModel = new ShowViewModel();
+
+                            //Reserved Seats
+                            var AllBookingsInfoForShow = entities.BOOKINGs.Where(b => b.ShowID == si.ShowID && b.ShowDate == RequestedDate).ToList();
+
+                            showViewModel.ReservedSeatsCount =0;
+                            foreach (var bookingInfo in AllBookingsInfoForShow)
+                            {
+                                var reservedSeatsForEachDateCount = entities.MOVIEHALLSEATs.Where(c => c.BOOKINGs.Any(m => m.BookingID == bookingInfo.BookingID)).ToList().Count;
+                                showViewModel.ReservedSeatsCount += reservedSeatsForEachDateCount;
+
+                            }
+
                             showViewModel.ShowID = si.ShowID;
                             showViewModel.ShowTime = si.ShowTime;
-                            showViewModel.ReservedSeatsCount = (int)si.ReservedSeatsCount;
-                            showViewModel.UnreservedSeatsCount = (int)si.UnreservedSeatsCount;
                             showViewModel.MovieHallType = si.MovieHallType;
                             showViewModel.Price = si.Price;
+                            showViewModel.UnreservedSeatsCount = si.Capacity- showViewModel.ReservedSeatsCount;
                             showViewModel.TheatreName = si.TheatreName;
                             showViewModel.TheatreLocation = si.TheatreLocation;
                             showViewModel.TheatreAddress = si.TheatreAddress;
@@ -81,6 +91,53 @@ namespace BMSWebApp1.Controllers
 
             }
         }
+
+        [HttpGet]
+        [Route("api/seats")]
+        public IHttpActionResult GetSeatsInfoForShow([FromUri] int ShowID, DateTime RequestedDate)
+        {
+            try
+            {
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+                {
+                    var showEntity = entities.SHOWINFOes.FirstOrDefault(c => c.ShowID == ShowID);
+                    if (showEntity != null) {
+                        var AllSeatsInfoForShow = entities.MOVIEHALLSEATs.Where(c => c.MovieHallID == showEntity.MovieHallID).ToList();
+                        List<string> AllSeatsForShow = new List<string>();
+                        foreach (var seatInfo in AllSeatsInfoForShow)
+                        {
+                            AllSeatsForShow.Add(seatInfo.SeatNumber);
+                        }
+
+                        //Reserved Seats
+                        var AllBookingsInfoForShow = entities.BOOKINGs.Where(b => b.ShowID == ShowID && b.ShowDate== RequestedDate).ToList();
+                        List<string> AllReservedSeatsForShow = new List<string>();
+                        foreach (var bookingInfo in AllBookingsInfoForShow)
+                        {
+                            var reservedSeatsForEachDate = entities.MOVIEHALLSEATs.Where(c => c.BOOKINGs.Any(m => m.BookingID == bookingInfo.BookingID)).ToList();
+                            foreach (var seatInfo in reservedSeatsForEachDate)
+                            {
+                                AllReservedSeatsForShow.Add(seatInfo.SeatNumber);
+                            }
+                        }
+                        SeatsViewModel seatsViewModel = new SeatsViewModel();
+                        seatsViewModel.Seats = AllSeatsForShow;
+                        seatsViewModel.ReservedSeats = AllReservedSeatsForShow;
+                        return Ok(seatsViewModel);
+                    }
+                    else {
+                        return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Show Not Found")); ;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write(ex);
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message)); ;
+
+            }
+        }
+
 
     }
 }

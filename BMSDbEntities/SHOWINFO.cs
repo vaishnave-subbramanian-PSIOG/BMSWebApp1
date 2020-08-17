@@ -26,8 +26,6 @@ namespace BMSDbEntities
         public System.DateTime ToDate { get; set; }
         public bool isSpecificDay { get; set; }
         public string SpecificDay { get; set; }
-        public Nullable<int> ReservedSeatsCount { get; set; }
-        public Nullable<int> UnreservedSeatsCount { get; set; }
         public System.TimeSpan ShowTime { get; set; }
         public int MovieHallID { get; set; }
     

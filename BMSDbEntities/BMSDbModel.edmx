@@ -13,6 +13,7 @@
           <Property Name="BookingDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ShowID" Type="int" Nullable="false" />
+          <Property Name="ShowDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="CASTING">
           <Key>
@@ -116,8 +117,6 @@
           <Property Name="ToDate" Type="date" Nullable="false" />
           <Property Name="isSpecificDay" Type="bit" Nullable="false" />
           <Property Name="SpecificDay" Type="varchar" MaxLength="9" />
-          <Property Name="ReservedSeatsCount" Type="int" />
-          <Property Name="UnreservedSeatsCount" Type="int" />
           <Property Name="ShowTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="MovieHallID" Type="int" Nullable="false" />
         </EntityType>
@@ -396,6 +395,7 @@
           <NavigationProperty Name="SHOWINFO" Relationship="Self.FK__BOOKING__ShowID__46E78A0C" FromRole="BOOKING" ToRole="SHOWINFO" />
           <NavigationProperty Name="PAYMENTDETAILS" Relationship="Self.FK__PAYMENTDE__Booki__4E88ABD4" FromRole="BOOKING" ToRole="PAYMENTDETAILS" />
           <NavigationProperty Name="MOVIEHALLSEATs" Relationship="Self.TICKETRESERVATION" FromRole="BOOKING" ToRole="MOVIEHALLSEAT" />
+          <Property Name="ShowDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="CASTING">
           <Key>
@@ -497,8 +497,6 @@
           <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="isSpecificDay" Type="Boolean" Nullable="false" />
           <Property Name="SpecificDay" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
-          <Property Name="ReservedSeatsCount" Type="Int32" />
-          <Property Name="UnreservedSeatsCount" Type="Int32" />
           <Property Name="ShowTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="MovieHallID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BOOKINGs" Relationship="Self.FK__BOOKING__ShowID__46E78A0C" FromRole="SHOWINFO" ToRole="BOOKING" />
@@ -691,6 +689,7 @@
           <EntitySetMapping Name="BOOKINGs">
             <EntityTypeMapping TypeName="BMSApplicationModel.BOOKING">
               <MappingFragment StoreEntitySet="BOOKING">
+                <ScalarProperty Name="ShowDate" ColumnName="ShowDate" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
@@ -791,8 +790,6 @@
                 <ScalarProperty Name="ToDate" ColumnName="ToDate" />
                 <ScalarProperty Name="isSpecificDay" ColumnName="isSpecificDay" />
                 <ScalarProperty Name="SpecificDay" ColumnName="SpecificDay" />
-                <ScalarProperty Name="ReservedSeatsCount" ColumnName="ReservedSeatsCount" />
-                <ScalarProperty Name="UnreservedSeatsCount" ColumnName="UnreservedSeatsCount" />
                 <ScalarProperty Name="ShowTime" ColumnName="ShowTime" />
                 <ScalarProperty Name="MovieHallID" ColumnName="MovieHallID" />
               </MappingFragment>
