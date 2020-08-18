@@ -53,7 +53,13 @@ namespace BMSWebApp1.Controllers
                         moviesViewModel.PosterURL = mi.PosterURL;
                         moviesViewModel.Director = mi.DirectorName;
                         moviesViewModel.Genre = mi.GenreName;
-                        moviesViewModel.Cast = entities.CASTINGs.Where(c => c.MOVIEs.Any(m => m.MovieID == mi.MovieID)).ToList();
+                        List<string> CastList = new List<string>();
+                        var CastsInfo = entities.CASTINGs.Where(c => c.MOVIEs.Any(m => m.MovieID == mi.MovieID)).ToList();
+                        foreach (var c in CastsInfo)
+                        {
+                            CastList.Add(c.ActorName);
+                        }
+                        moviesViewModel.Cast = CastList;
                         listMoviesViewModel.Add(moviesViewModel);
                     }
                     return Ok(listMoviesViewModel);
@@ -70,52 +76,21 @@ namespace BMSWebApp1.Controllers
         [Route("api/movies/{id?}")]
         public IHttpActionResult GetMovies(int id)
         {
-            try {
-                using (BMSApplicationEntities entities = new BMSApplicationEntities())
-                {
 
-                    List<MOVIE> AllMovies = entities.MOVIEs.ToList();
-                    List<DIRECTOR> AllDirectors = entities.DIRECTORs.ToList();
-                    List<GENRE> AllGenres = entities.GENREs.ToList();
-
-                    var moviesInfo = (from m in AllMovies
-                                      join d in AllDirectors on m.DirectorID equals d.DirectorID
-                                      join g in AllGenres on m.GenreID equals g.GenreID
-                                      select new
-                                      {
-                                          MovieID = m.MovieID,
-                                          MovieName = m.MovieName,
-                                          Synopsis = m.Synopsis,
-                                          TrailerURL = m.TrailerURL,
-                                          PosterURL = m.PosterURL,
-                                          DirectorName = d.DirectorName,
-                                          GenreName = g.GenreName,
-                                      });
-                    var movieInfo = moviesInfo.FirstOrDefault(c => c.MovieID == id);
-                    if (movieInfo != null) {
-                        MoviesViewModel movieViewModel = new MoviesViewModel();
-                        movieViewModel.ID = movieInfo.MovieID;
-                        movieViewModel.Name = movieInfo.MovieName;
-                        movieViewModel.Synopsis = movieInfo.Synopsis;
-                        movieViewModel.TrailerURL = movieInfo.TrailerURL;
-                        movieViewModel.PosterURL = movieInfo.PosterURL;
-                        movieViewModel.Director = movieInfo.DirectorName;
-                        movieViewModel.Genre = movieInfo.GenreName;
-                        movieViewModel.Cast = entities.CASTINGs.Where(c => c.MOVIEs.Any(m => m.MovieID == movieInfo.MovieID)).ToList();
-
-                        return Ok(movieViewModel);
-                    }
-                    else
+                    var movieVM = BMSDbMethods.MovieInformation(id);
+                    if (movieVM==null)
                     {
-                        return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID")); ;
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Server Error")); ;
 
+                }
+                else if(movieVM.Any())
+                    {
+                    return Ok(movieVM);
 
                     }
-                }
-            }
-            catch (Exception ex){
-                Log.Write(ex);
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message)); ;
+                else
+                {
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID")); 
 
             }
         }

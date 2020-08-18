@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using BMSDbEntities;
+using BMSWebApp1.Models;
 
 namespace BMSWebApp1.Helper
 {
@@ -230,26 +232,61 @@ namespace BMSWebApp1.Helper
         }
 
         //Movie functions
-        //public static int AddMovie() { }
-        //public static IEnumerable MoviesList() {
-        //    using (BMSApplicationEntities entities = new BMSApplicationEntities())
-        //    {
-        //        List<MOVIE> AllMovies = entities.MOVIEs.ToList();
-        //        List<DIRECTOR> AllDirectors = entities.DIRECTORs.ToList();
-        //        List<GENRE> AllGenres = entities.GENREs.ToList();
+        public static List<MoviesViewModel> MovieInformation(int id)
+        {
+            try{
+                using (BMSApplicationEntities entities = new BMSApplicationEntities())
+                {
+                    List<MOVIE> AllMovies = entities.MOVIEs.ToList();
+                    List<DIRECTOR> AllDirectors = entities.DIRECTORs.ToList();
+                    List<GENRE> AllGenres = entities.GENREs.ToList();
 
-        //        var movieInfo = (from m in AllMovies
-        //                         join d in AllDirectors on m.DirectorID equals d.DirectorID
-        //                         join g in AllGenres on m.GenreID equals g.GenreID
-        //                         select new
-        //                         {
-        //                             MovieID = m.MovieID,
-        //                             MovieName = m.MovieName,
-        //                             DirectorName = d.DirectorName,
-        //                             GenreName = g.GenreName,
-        //                         });
-        //        return movieInfo;
-        //    }
-        //}
+                    var moviesInfo = (from m in AllMovies
+                                      join d in AllDirectors on m.DirectorID equals d.DirectorID
+                                      join g in AllGenres on m.GenreID equals g.GenreID
+                                      select new
+                                      {
+                                          MovieID = m.MovieID,
+                                          MovieName = m.MovieName,
+                                          Synopsis = m.Synopsis,
+                                          TrailerURL = m.TrailerURL,
+                                          PosterURL = m.PosterURL,
+                                          DirectorName = d.DirectorName,
+                                          GenreName = g.GenreName,
+                                      });
+                    var movieInfo = moviesInfo.FirstOrDefault(c => c.MovieID == id);
+                    if (movieInfo != null)
+                    {
+                        MoviesViewModel movieViewModel = new MoviesViewModel();
+                        movieViewModel.ID = movieInfo.MovieID;
+                        movieViewModel.Name = movieInfo.MovieName;
+                        movieViewModel.Synopsis = movieInfo.Synopsis;
+                        movieViewModel.TrailerURL = movieInfo.TrailerURL;
+                        movieViewModel.PosterURL = movieInfo.PosterURL;
+                        movieViewModel.Director = movieInfo.DirectorName;
+                        movieViewModel.Genre = movieInfo.GenreName;
+                        List<string> CastList = new List<string>();
+                        var CastsInfo = entities.CASTINGs.Where(c => c.MOVIEs.Any(m => m.MovieID == movieInfo.MovieID)).ToList();
+                        foreach (var c in CastsInfo)
+                        {
+                            CastList.Add(c.ActorName);
+                        }
+                        movieViewModel.Cast = CastList;
+
+                        return new List<MoviesViewModel> { movieViewModel };
+                    }
+                    else
+                    {
+                        return new List<MoviesViewModel>();
+
+                    }
+                } 
+            }
+            catch (Exception ex){
+                Log.Write(ex);
+                return null;
+            }
+
+        }
     }
 }

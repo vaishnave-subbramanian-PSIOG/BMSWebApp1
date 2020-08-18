@@ -10,7 +10,7 @@ namespace BMSWebApp1.Helper
 {
     public class EmailVerificationLink
     {
-        public static void EmailLinkGenerator(string email,string link, string purpose)
+        public static void EmailLinkGenerator(string email,string data, string purpose)
         {
 
             var fromEmail = new MailAddress("automated.bookmyshow@gmail.com", "BMS");
@@ -24,18 +24,24 @@ namespace BMSWebApp1.Helper
                 case "AccountVerification":
                 subject = "Your account has been created.";
                 body = "<br/><br/>Please click on the below link to verify your account" +
-                    " <br/><br/><a href='" + link + "'> Verify Account</a> ";
+                    " <br/><br/><a href='" + data + "'> Verify Account</a> ";
                 break;
 
                 case "ResetPassword":
                 subject = "Reset your account password.";
                 body = "<br/><br/>Please click on the link below to reset your password" +
-                    "<br/><br/><a href=" + link + ">Reset Password link</a>";
+                    "<br/><br/><a href=" + data + ">Reset Password link</a>";
                 break;
 
                 case "PostResetPassword":
                 subject = "Your password has been reset.";
                 body = "<br/><br/>You have successfully reset your account password." +
+                        "<br/><br/>";
+                break;
+
+                case "BookingConfirmation":
+                subject = "Booking Confirmation";
+                body = "<br/><br/>" +data+
                         "<br/><br/>";
                 break;
             }
@@ -59,5 +65,9 @@ namespace BMSWebApp1.Helper
             })
                 smtp.Send(message);
         }
+        //public static string BookingConfirmationHTML()
+        //{
+        //    return @"";
+        //}    
     }
 }

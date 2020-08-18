@@ -14,6 +14,6 @@ namespace BMSWebApp1.Models
       public string PosterURL;
       public string Director;
       public string Genre;
-      public List<CASTING> Cast;
+      public List<string> Cast;
     }
 }

@@ -17,5 +17,7 @@ namespace BMSWebApp1.Models
 
         public List<string> ConfirmedSeats;
 
+        public MoviesViewModel MovieInformation;
+
     }
 }
