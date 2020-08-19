@@ -51,8 +51,8 @@ namespace BMSWebApp1.Controllers
                 var returnStatus = BMSDbMethods.UserRegistration(customer);
                 if (returnStatus > 0)
                 {
-                    var encodedEmail = Encryption.base64Encode(customer.CustomerEmail);
-                    var link = "https://" + HttpContext.Current.Request.Url.Authority + "/verification/" + HttpUtility.UrlEncode(encodedEmail);
+                    var encodedEmail = Encryption.base64Encode(customer.CustomerEmail).Replace('.', '+').Replace('_', '/').Replace('-', '=');
+                    var link = "http://localhost:3000/verification/" + HttpUtility.UrlEncode(encodedEmail);
                     EmailVerificationLink.EmailLinkGenerator(customer.CustomerEmail, link, "AccountVerification");
                     return Ok();
                 }
@@ -74,7 +74,14 @@ namespace BMSWebApp1.Controllers
             {
 
                 Log.Write(ex);
-                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message)); ;
+                
+               if(ex.Message== "This user already exists.")
+                {
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message));
+                }
+                else {
+                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                };
             }
         }
         [HttpGet]

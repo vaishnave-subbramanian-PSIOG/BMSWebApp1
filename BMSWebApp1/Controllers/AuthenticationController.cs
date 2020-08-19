@@ -21,7 +21,8 @@ namespace BMSWebApp1.Controllers
             {
                     if (BMSDbMethods.DoesUserExists(email))
                     {
-                        var encodedEmail = Encryption.base64Encode(email);
+                        var encodedEmail = Encryption.base64Encode(email).Replace('+', '.').Replace('/', '_').Replace('=', '-');
+                        //var encodedEmail = Encryption.base64Encode(email);
                         var link = "https://" + HttpContext.Current.Request.Url.Authority + "/reset-password/" + HttpUtility.UrlEncode(encodedEmail);
                         EmailVerificationLink.EmailLinkGenerator(email, link, "ResetPassword");
                         var isTimeoutSet = BMSDbMethods.SetResetPasswordTimeout(email);
@@ -62,7 +63,7 @@ namespace BMSWebApp1.Controllers
         {
             try
             {
-                var decodedEmail = Encryption.base64Decode(resetPassword.token);
+                var decodedEmail = Encryption.base64Decode(resetPassword.token.Replace('.', '+').Replace('_', '/').Replace('-', '='));
                 var isTimeoutResult = BMSDbMethods.isResetPasswordTimeout(decodedEmail);
                 switch (isTimeoutResult)
                 {
@@ -110,7 +111,7 @@ namespace BMSWebApp1.Controllers
         {
             try
             {
-                var result = BMSDbMethods.VerifyAccount(token);
+                var result = BMSDbMethods.VerifyAccount(HttpUtility.UrlDecode(token).Replace('.', '+').Replace('_', '/').Replace('-', '='));
                 switch (result)
                 {
                     case "Verified":
