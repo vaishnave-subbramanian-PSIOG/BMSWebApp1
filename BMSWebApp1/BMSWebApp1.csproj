@@ -221,6 +221,8 @@
     <Compile Include="Models\BookingWithMovieViewModel.cs" />
     <Compile Include="Models\IAuthContainerModel.cs" />
     <Compile Include="Models\JWTContainerModel.cs" />
+    <Compile Include="Models\LoginAttemptViewModel.cs" />
+    <Compile Include="Models\LoginConfirmedViewModel.cs" />
     <Compile Include="Models\MoviesViewModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\SeatsViewModel.cs" />

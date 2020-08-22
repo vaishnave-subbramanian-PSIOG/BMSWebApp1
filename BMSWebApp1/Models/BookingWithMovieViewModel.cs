@@ -10,6 +10,7 @@ namespace BMSWebApp1.Models
     {
         public BookingViewModel BookingVM;
         public MoviesViewModel MovieVM;
+        public System.TimeSpan ShowTime;
         public string TheatreName;
         public string TheatreLocation;
         public string TheatreAddress;

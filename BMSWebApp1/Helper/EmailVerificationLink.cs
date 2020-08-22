@@ -44,6 +44,11 @@ namespace BMSWebApp1.Helper
                 body = "<br/><br/>" +data+
                         "<br/><br/>";
                 break;
+
+                case "AccountUpdated":
+                subject = "Account details updated";
+                body = "<br/><br/>You have successfully updated your account details.<br/><br/>";
+                break;
             }
 
 

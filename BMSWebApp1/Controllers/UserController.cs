@@ -140,6 +140,7 @@ namespace BMSWebApp1.Controllers
                     entity.CustomerAddress = customer.CustomerAddress;
                     entity.CustomerContact = customer.CustomerContact;
                     entities.SaveChanges();
+                    EmailVerificationLink.EmailLinkGenerator(entity.CustomerEmail, "", "AccountUpdated");
                     return Ok();
 
                 }

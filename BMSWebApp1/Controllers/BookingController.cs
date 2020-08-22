@@ -132,6 +132,7 @@ namespace BMSWebApp1.Controllers
                                             b.BookingDate,
                                             b.ShowDate,
                                             b.ShowID,
+                                            s.ShowTime,
                                             p.PaymentDate,
                                             p.PaymentAmount,
                                             p.TransactionMode,
@@ -173,6 +174,7 @@ namespace BMSWebApp1.Controllers
                            bookingWithMovieViewModelList.Add(new BookingWithMovieViewModel { 
                                BookingVM = bookingViewModel, 
                                MovieVM = movieVM.First(),
+                               ShowTime = bi.ShowTime,
                                TheatreName=bi.TheatreName,
                                TheatreAddress = bi.TheatreAddress,
                                TheatreContact=bi.TheatreContact,
@@ -242,6 +244,7 @@ namespace BMSWebApp1.Controllers
                         return Ok(new BookingWithMovieViewModel { 
                             BookingVM = bookingViewModel, 
                             MovieVM = movieVM.First(),
+                            ShowTime = showInfo.ShowTime,
                             TheatreName = theatreInfo.TheatreName,
                             TheatreAddress = theatreInfo.TheatreAddress,
                             TheatreContact = theatreInfo.TheatreContact,
