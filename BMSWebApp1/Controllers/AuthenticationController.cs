@@ -111,15 +111,22 @@ namespace BMSWebApp1.Controllers
         {
             try
             {
-                var result = BMSDbMethods.VerifyAccount(HttpUtility.UrlDecode(token).Replace('.', '+').Replace('_', '/').Replace('-', '='));
-                switch (result)
+                if (token == null || token == "") {
+                    throw new InvalidOperationException("Invalid Token");
+
+                }
+                else
                 {
-                    case "Verified":
-                        return Ok("This account has been verified.");
+                    var result = BMSDbMethods.VerifyAccount(HttpUtility.UrlDecode(token).Replace('.', '+').Replace('_', '/').Replace('-', '='));
+                    switch (result)
+                    {
+                        case "Verified":
+                            return Ok("This account has been verified.");
 
-                    default:
-                        throw new InvalidOperationException(result);
+                        default:
+                            throw new InvalidOperationException(result);
 
+                    }
                 }
             }
             catch (Exception ex)
