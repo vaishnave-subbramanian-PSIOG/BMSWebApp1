@@ -17,7 +17,7 @@ namespace BMSDbEntities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MOVIEHALLSEAT()
         {
-            this.TICKETRESERVATIONs = new HashSet<TICKETRESERVATION>();
+            this.BOOKINGs = new HashSet<BOOKING>();
         }
     
         public int MovieHallSeatID { get; set; }
@@ -26,6 +26,6 @@ namespace BMSDbEntities
     
         public virtual MOVIEHALL MOVIEHALL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TICKETRESERVATION> TICKETRESERVATIONs { get; set; }
+        public virtual ICollection<BOOKING> BOOKINGs { get; set; }
     }
 }

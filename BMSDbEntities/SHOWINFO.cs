@@ -18,20 +18,21 @@ namespace BMSDbEntities
         public SHOWINFO()
         {
             this.BOOKINGs = new HashSet<BOOKING>();
-            this.SHOWs = new HashSet<SHOW>();
+            this.MOVIEs = new HashSet<MOVIE>();
         }
     
         public int ShowID { get; set; }
-        public System.DateTime ToDate { get; set; }
         public System.DateTime FromDate { get; set; }
+        public System.DateTime ToDate { get; set; }
         public bool isSpecificDay { get; set; }
         public string SpecificDay { get; set; }
-        public Nullable<int> ReservedSeatsCount { get; set; }
-        public Nullable<int> UnreservedSeatsCount { get; set; }
+        public System.TimeSpan ShowTime { get; set; }
+        public int MovieHallID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOKING> BOOKINGs { get; set; }
+        public virtual MOVIEHALL MOVIEHALL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SHOW> SHOWs { get; set; }
+        public virtual ICollection<MOVIE> MOVIEs { get; set; }
     }
 }

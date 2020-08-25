@@ -18,7 +18,7 @@ namespace BMSDbEntities
         public MOVIEHALL()
         {
             this.MOVIEHALLSEATs = new HashSet<MOVIEHALLSEAT>();
-            this.SHOWs = new HashSet<SHOW>();
+            this.SHOWINFOes = new HashSet<SHOWINFO>();
         }
     
         public int MovieHallID { get; set; }
@@ -31,6 +31,6 @@ namespace BMSDbEntities
         public virtual ICollection<MOVIEHALLSEAT> MOVIEHALLSEATs { get; set; }
         public virtual THEATRECOMPLEX THEATRECOMPLEX { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SHOW> SHOWs { get; set; }
+        public virtual ICollection<SHOWINFO> SHOWINFOes { get; set; }
     }
 }

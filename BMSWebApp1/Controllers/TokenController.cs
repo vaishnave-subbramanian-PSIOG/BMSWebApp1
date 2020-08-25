@@ -11,20 +11,22 @@ using BMSDbEntities;
 using BMSWebApp1.Helper;
 using BMSWebApp1.Managers;
 using BMSWebApp1.Models;
+using Newtonsoft.Json.Linq;
 
 namespace BMSWebApp1.Controllers
 {
     public class TokenController : ApiController
     {
         [HttpPost]
-        [Route("token")]
-        public IHttpActionResult GetToken(HttpRequestMessage request)
+        [Route("api/token")]
+        public IHttpActionResult GetToken([FromBody] LoginAttemptViewModel loginViewModel)
         {
             try
             {
-                var email = HttpContext.Current.Request.Form["email"];
-                var password = HttpContext.Current.Request.Form["password"];
-                if (BMSDbMethods.LoginAttempt(email, password, out CUSTOMER customer) == "Success")
+                var email = loginViewModel.email;
+                var password = loginViewModel.password;
+                var loginResult = BMSDbMethods.LoginAttempt(email, password, out CUSTOMER customer);
+                if (loginResult == "Success")
                 {
                     var role = "user";
                     if (customer.isAdmin == true)
@@ -43,11 +45,16 @@ namespace BMSWebApp1.Controllers
                         List<Claim> claims = authService.GetTokenClaims(token).ToList();
 
                     }
-                    return Ok(token);
+                    LoginConfirmedViewModel loginConfirmedViewModel = new LoginConfirmedViewModel
+                    {
+                        AuthToken = token,
+                        Customer = customer
+                    };
+                    return Ok(loginConfirmedViewModel);
                 }
                 else
                 {
-                    return BadRequest("Invalid Credentials");
+                    return BadRequest(loginResult);
                 }
             }
             catch (Exception ex)

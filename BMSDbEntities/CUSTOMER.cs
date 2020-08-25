@@ -29,6 +29,8 @@ namespace BMSDbEntities
         public bool isAdmin { get; set; }
         public string VCode { get; set; }
         public Nullable<System.DateTime> AccountCreateDate { get; set; }
+        public bool isVerified { get; set; }
+        public Nullable<System.DateTime> ResetPasswordTimeout { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOKING> BOOKINGs { get; set; }
