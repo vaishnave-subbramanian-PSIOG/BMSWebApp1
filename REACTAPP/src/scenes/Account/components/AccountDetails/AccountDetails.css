@@ -1,0 +1,25 @@
+/* .container{
+    padding-top:40px;
+    padding-bottom: 40px;
+  } */
+  .paper{
+    padding: 20px;
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    font-size: 18px;
+
+  }
+  .fixedHeight{
+    height: 240;
+  }
+.paper *{
+    margin:10px;
+    /* display: inline-block; */
+}
+.spinner{
+  display: flex;
+  position:absolute;
+  left:50%;
+  top:50%;
+z-index:10}

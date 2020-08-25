@@ -1,0 +1,51 @@
+.card{
+    height: 100%;
+    width: 15em;
+    display: flex;
+    flex-direction: column;
+  }
+.cardMedia{
+    padding-top: 1rem; 
+    height: 40vh;
+
+  }
+.cardContent {
+    flex-grow: 1;
+  }
+.cardGrid{
+
+    padding-top: 1rem;
+    padding-bottom:1rem
+  }
+  .modal {
+      border: 5px solid grey;
+    position: absolute;
+    width: 400px;
+    background-color: white;
+    box-shadow: none;
+    padding: 1rem;
+    outline: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: scroll !important;
+    max-height:550px
+
+  }
+  
+  .modalImage{
+    width: 50%;
+    padding-bottom:1rem;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+
+  
+  .spinner{
+    display: flex;
+    position:absolute;
+    left:50%;
+    top:50%;
+  z-index:10}
