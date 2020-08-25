@@ -1,0 +1,59 @@
+.bgcolor{
+    background-color: white;
+  }
+  .center{
+    text-align: center;
+  }
+  .form{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+  .form-group
+  {
+    padding-bottom: 20px;
+
+  }
+  .textcolor{
+    color: white;
+  }
+  .visibility{
+    visibility: hidden;
+  }
+  .screen{
+    border: 5px solid black;
+    padding: 20px;
+    margin: 20px;
+  }
+  .button{
+    margin: 30px;
+    color: #841584;
+    background-color: #e6e6e6;
+  }
+  input[type=submit], input[type=button]{
+    width: 20vw;
+    background-color:rgb(184, 184, 184);
+    outline: none;
+  }
+  .paper{
+    padding: 20px;
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    font-size: 18px;
+
+  }
+  .fixedHeight{
+    height: 240;
+  }
+.paper *{
+    /* margin:10px; */
+    /* display: inline-block; */
+}
+
+.spinner{
+  display: flex;
+  position:absolute;
+  left:50%;
+  top:50%;
+z-index:10}

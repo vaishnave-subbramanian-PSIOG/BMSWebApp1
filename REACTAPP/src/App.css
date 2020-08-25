@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+}
+  
+select{
+  height:2rem;
+}
+input[type="date"]{
+  height:2rem;
+
+}
